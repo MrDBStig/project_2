@@ -31,7 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
     films = document.querySelector(".promo__interactive-list"),
     addForm = document.querySelector("form.add"),
     addInput = addForm.querySelector(".adding__input"),
-    checkbox = addForm.querySelector('[type="checkbox"]');
+    checkbox = addForm.querySelector('[type="checkbox"]'),
+    throwAds = document.querySelector("#delete-banners");
 
   addForm.addEventListener("submit", function addUserFilm(event) {
     event.preventDefault();
@@ -54,9 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
     event.target.reset();
   });
 
-  const deleteAds = (arg) => {
-    arg.forEach((item) => {
-      item.remove();
+  const deleteAds = (arg, lc) => {
+    lc.addEventListener("click", () => {
+      arg.forEach((item) => {
+        item.remove();
+      });
+      lc.remove();
     });
   };
 
@@ -88,6 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   makeChanges();
-  deleteAds(promoBlock);
+  deleteAds(promoBlock, throwAds);
   createMovieList(movieDB.movies, films);
 });
