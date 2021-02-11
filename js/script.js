@@ -14,36 +14,80 @@
 
 "use strict";
 
-const movieDB = {
-  movies: [
-    "Логан",
-    "Лига справедливости",
-    "Ла-ла лэнд",
-    "Одержимость",
-    "Скотт Пилигрим против...",
-  ],
-};
+document.addEventListener("DOMContentLoaded", () => {
+  const movieDB = {
+    movies: [
+      "Логан",
+      "Лига справедливости",
+      "Ла-ла лэнд",
+      "Одержимость",
+      "Скотт Пилигрим против...",
+    ],
+  };
 
-const promoBlock = document.querySelectorAll(".promo__adv img"),
-  poster = document.querySelector(".promo__bg"),
-  genre = poster.querySelector(".promo__genre"),
-  films = document.querySelector(".promo__interactive-list");
+  const promoBlock = document.querySelectorAll(".promo__adv img"),
+    poster = document.querySelector(".promo__bg"),
+    genre = poster.querySelector(".promo__genre"),
+    films = document.querySelector(".promo__interactive-list"),
+    addForm = document.querySelector("form.add"),
+    addInput = addForm.querySelector(".adding__input"),
+    checkbox = addForm.querySelector('[type="checkbox"]');
 
-promoBlock.forEach((item) => {
-  item.remove();
-});
+  addForm.addEventListener("submit", function addUserFilm(event) {
+    event.preventDefault();
 
-genre.textContent = "ДРАМА";
+    let newFilm = addInput.value;
+    const favorite = checkbox.checked;
 
-poster.style.backgroundImage = `url(img/bg.jpg)`;
+    if (newFilm) {
+      if (newFilm.length > 21) {
+        newFilm = `${newFilm.substr(0, 21)}...`;
+      }
+      if (favorite) {
+        alert(`Добавляем любимый фильм: ${newFilm}`);
+      }
+      movieDB.movies.push(newFilm);
+      sortFilms(movieDB.movies);
+      createMovieList(movieDB.movies, films);
+    }
 
-films.innerHTML = "";
+    event.target.reset();
+  });
 
-movieDB.movies.sort();
-movieDB.movies.forEach((film, i) => {
-  films.innerHTML += `
-		<li class="promo__interactive-item">${i + 1}. ${film}
-			<div class="delete"></div>
-		</li>
-	`;
+  const deleteAds = (arg) => {
+    arg.forEach((item) => {
+      item.remove();
+    });
+  };
+
+  const makeChanges = () => {
+    genre.textContent = "ДРАМА";
+    poster.style.backgroundImage = `url(img/bg.jpg)`;
+  };
+
+  const sortFilms = (array) => {
+    array.sort();
+  };
+
+  function createMovieList(mov, parent) {
+    parent.innerHTML = "";
+    sortFilms(mov);
+    mov.forEach((film, i) => {
+      parent.innerHTML += `
+        <li class="promo__interactive-item">${i + 1}. ${film}
+          <div class="delete"></div>
+        </li>`;
+    });
+    document.querySelectorAll(".delete").forEach((btn, i) => {
+      btn.addEventListener("click", () => {
+        btn.parentElement.remove();
+        movieDB.movies.splice(i, 1);
+        createMovieList(mov, parent);
+      });
+    });
+  }
+
+  makeChanges();
+  deleteAds(promoBlock);
+  createMovieList(movieDB.movies, films);
 });
