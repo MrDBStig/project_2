@@ -82,8 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  changeBackground();
-
   function createMovieList(mov, parent) {
     parent.innerHTML = "";
     sortFilms(mov);
@@ -104,5 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   makeChanges();
   deleteAds(promoBlock, throwAds);
+  changeBackground();
   createMovieList(movieDB.movies, films);
 });
