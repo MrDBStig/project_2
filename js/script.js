@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
     addForm = document.querySelector("form.add"),
     addInput = addForm.querySelector(".adding__input"),
     checkbox = addForm.querySelector('[type="checkbox"]'),
-    throwAds = document.querySelector("#delete-banners");
+    throwAds = document.querySelector("#delete-banners"),
+    headerBackground = document.querySelector(".header__logo");
 
   addForm.addEventListener("submit", function addUserFilm(event) {
     event.preventDefault();
@@ -72,6 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const sortFilms = (array) => {
     array.sort();
   };
+
+  function changeBackground() {
+    headerBackground.addEventListener("click", (event) => {
+      if (event.target && event.target.tagName == "IMG") {
+        headerBackground.classList.toggle("active");
+      }
+    });
+  }
+
+  changeBackground();
 
   function createMovieList(mov, parent) {
     parent.innerHTML = "";

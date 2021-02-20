@@ -52,6 +52,9 @@
     height: 100%;
     width: calc(100% - 360px);
   }
+  & .active {
+    background: #ffd500;
+  }
 }
 .promo {
   height: 780px;
